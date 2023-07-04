@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:8.0
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - desafionet
+
+  nginx:
+    build:
+      context: ./nginx
+    image: willns/desafio-fullcycle-nginx
+    container_name: nginx
+    networks:
+      - desafionet
+    ports:
+      - "8080:80"
+    depends_on:
+      - nodeapp
+
+  nodeapp:
+    build:
+      context: ./nodeapp
+    image: willns/desafio-fullcycle-nodeapp
+    container_name: nodeapp
+    networks:
+      - desafionet
+    depends_on:
+      - db
+
+networks:
+  desafionet:
+    driver: bridge
