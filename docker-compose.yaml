@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  db:
+  database:
     image: mysql:8.0
     command: --innodb-use-native-aio=0
     container_name: db
@@ -32,10 +32,11 @@ services:
       context: ./nodeapp
     image: willns/desafio-fullcycle-nodeapp
     container_name: nodeapp
+    command: wait-for database:3306 -t 40 -- sh start.sh
     networks:
       - desafionet
     depends_on:
-      - db
+      - database
 
 networks:
   desafionet:
