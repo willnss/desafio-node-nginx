@@ -9,36 +9,28 @@ const config = {
 };
 const mysql = require('mysql2')
 
+app.set('view engine', 'pug')
+app.set('views', './views')
+
 app.get('/', (req, res) => {
     let connection = mysql.createConnection(config)
     let sql = "select name from people;"
 
     connection.query(sql, (err, results) => {
-        res.send(`
-            <!DOCTYPE html>
-            <html lang='en'>
-            <head>
-            <title>Nginx</title>
-            <meta charset='utf-8'>
-            <style>
-            </style>
-            <script>
-            </script>
-            </head>
-            <body>
-                <h1>Full Cycle Rocks!</h1>
-                ${JSON.stringify(results)}
-            </body>
-            </html>
-                    `)
+        res.render('index', {
+            title: "Desafio Node/Nginx",
+            message: "🌐 Full Cycle Rocks!",
+            people: results
+        })
     } );
     connection.end();
 })
 
 app.listen(port, () => {
+    let random_name = require('node-random-name');
     let connection = mysql.createConnection(config)
     let createTable = "create table if not exists people(id int not null auto_increment primary key, name varchar(255));"
-    let insert = "insert into people(name) values('Aaron Cohen')"
+    let insert = `insert into people(name) values('${random_name()}')`
     let sql = "select name from people;"
     connection.execute(createTable);
     connection.execute(insert);

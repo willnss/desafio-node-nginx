@@ -1,0 +1,16 @@
+html
+  head
+    title= title
+    style(type='text/css').
+        #table td, #table th {
+            border: 1px solid black;
+        }
+  body
+    h1#id= message
+    h2 People listing
+    table#table
+      tr
+        th Nome
+      for person in people 
+        tr
+          td #{person.name}

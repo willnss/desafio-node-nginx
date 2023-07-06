@@ -1,4 +1,5 @@
 #!/bin/bash
 
 npm install
-npm start
+
+nodemon --exec npm start

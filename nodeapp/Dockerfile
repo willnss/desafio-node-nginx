@@ -8,16 +8,6 @@ RUN apk update --no-cache \
 
 WORKDIR /usr/src/app
 
-COPY ./package.json ./
-
 RUN npm config rm https-proxy
 
-RUN npm install
-
-COPY ./start.sh ./
-
-RUN chmod +x ./start.sh
-
-COPY ./index.js ./
-
-CMD [ "npm", "start" ]
+RUN npm install -g nodemon

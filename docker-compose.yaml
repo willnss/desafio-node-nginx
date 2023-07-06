@@ -33,6 +33,8 @@ services:
     image: willns/desafio-fullcycle-nodeapp
     container_name: nodeapp
     command: wait-for database:3306 -t 40 -- sh start.sh
+    volumes:
+      - ./nodeapp:/usr/src/app
     networks:
       - desafionet
     depends_on:
